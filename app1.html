@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Shuffler</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    input[type="number"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      width: 200px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      text-align: left;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+    .completed {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Number Shuffler</h1>
+  <input type="number" id="numInput" placeholder="Enter a number">
+  <button onclick="shuffleNumbers()">Shuffle</button>
+  <ul id="shuffledList"></ul>
+</div>
+
+<script>
+  function shuffleNumbers() {
+    const numInput = document.getElementById('numInput').value;
+    const shuffledList = document.getElementById('shuffledList');
+
+    // Clear previous list
+    shuffledList.innerHTML = '';
+
+    // Generate array of numbers from 1 to N
+    const numbers = Array.from({ length: parseInt(numInput) }, (_, i) => i + 1);
+
+    // Shuffle the array
+    for (let i = numbers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+
+    // Display shuffled numbers with checkboxes
+    numbers.forEach((num, index) => {
+      const li = document.createElement('li');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = `checkbox${index}`;
+      const label = document.createElement('label');
+      label.htmlFor = `checkbox${index}`;
+      label.textContent = `numero ${num}`;
+      li.appendChild(checkbox);
+      li.appendChild(label);
+      shuffledList.appendChild(li);
+
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          label.classList.add('completed');
+        } else {
+          label.classList.remove('completed');
+        }
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
